@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>RustPrint — Documentation as Blueprint for Rust Translation</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="aurora"></div>
+    <div class="app">
+        <header class="topbar">
+            <div class="brand">
+                <span class="logo">🦀</span>
+                <div class="brand-text">
+                    <h1>RustPrint</h1>
+                    <span class="subtitle">Documentation as Blueprint for Rust Translation</span>
+                </div>
+            </div>
+            <span id="conn-pill" class="pill pill-idle"><span class="pill-dot"></span>Connecting…</span>
+        </header>
+
+        <main class="layout">
+            <section class="card config">
+                <div class="card-head">
+                    <h2>Configuration</h2>
+                </div>
+                <p class="hint">Use a complete absolute path for the source repository.</p>
+
+                <label class="field">
+                    <span class="field-label">Source C repository</span>
+                    <input id="source-path" type="text" placeholder="/abs/path/to/c-repo">
+                </label>
+
+                <div class="grid-2">
+                    <label class="field"><span class="field-label">Model name</span><input id="model-name" type="text" placeholder="gpt-5.4"></label>
+                    <label class="field"><span class="field-label">Provider</span><input id="model-provider" type="text" placeholder="openai"></label>
+                </div>
+
+                <label class="field">
+                    <span class="field-label">API key</span>
+                    <span class="input-reveal">
+                        <input id="api-key" type="password" placeholder="sk-…">
+                        <button id="api-key-toggle" type="button" class="reveal-btn" aria-label="Show key">show</button>
+                    </span>
+                </label>
+                <label class="field"><span class="field-label">API base URL</span><input id="api-base-url" type="text" placeholder="https://…/v1"></label>
+
+                <div class="grid-2">
+                    <label class="field"><span class="field-label">Output base dir</span><input id="output-base" type="text"></label>
+                    <label class="field"><span class="field-label">Cache dir</span><input id="output-cache" type="text"></label>
+                </div>
+
+                <fieldset class="group">
+                    <legend>Git</legend>
+                    <label class="switch"><input id="git-branch-enabled" type="checkbox"><span class="track"></span><span class="switch-label">Create / switch branch</span></label>
+                    <div id="git-branch-deps" class="deps">
+                        <label class="field"><span class="field-label">Branch name</span><input id="git-branch-name" type="text"></label>
+                        <label class="switch"><input id="git-commit" type="checkbox"><span class="track"></span><span class="switch-label">Auto-commit changes</span></label>
+                    </div>
+                </fieldset>
+
+                <fieldset class="group">
+                    <legend>Requirement refinement</legend>
+                    <label class="switch"><input id="req-enabled" type="checkbox"><span class="track"></span><span class="switch-label">Enabled</span></label>
+                    <div id="req-deps" class="deps">
+                        <label class="field"><span class="field-label">Rounds</span><input id="req-rounds" type="number" min="0"></label>
+                    </div>
+                </fieldset>
+
+                <fieldset class="group">
+                    <legend>Execution refinement</legend>
+                    <label class="switch"><input id="exec-enabled" type="checkbox"><span class="track"></span><span class="switch-label">Enabled</span></label>
+                    <div id="exec-deps" class="deps">
+                        <label class="field"><span class="field-label">Rounds</span><input id="exec-rounds" type="number" min="0"></label>
+                        <label class="switch"><input id="exec-translate-tests" type="checkbox"><span class="track"></span><span class="switch-label">Translate source tests</span></label>
+                    </div>
+                </fieldset>
+
+                <fieldset class="group">
+                    <legend>Run</legend>
+                    <label class="switch"><input id="run-force" type="checkbox"><span class="track"></span><span class="switch-label">Force clean run (ignore cache)</span></label>
+                </fieldset>
+
+                <div class="actions">
+                    <button id="start-btn" class="primary">Start migration</button>
+                    <button id="stop-btn" class="danger" disabled>Stop</button>
+                </div>
+                <p id="status-message" class="status"></p>
+                <div class="config-file-row">
+                    <p id="config-path" class="muted"></p>
+                    <button id="config-open" type="button" class="ghost-btn" disabled>Open config file</button>
+                </div>
+            </section>
+
+            <section class="card monitor">
+                <div class="card-head">
+                    <h2>Pipeline</h2>
+                    <span id="overall-status" class="pill pill-idle"><span class="pill-dot"></span>Idle</span>
+                </div>
+                <div class="progress"><div id="progress-bar" class="progress-bar"></div></div>
+
+                <ol id="stages" class="stages"></ol>
+
+                <div class="log-head">
+                    <h2>Live log</h2>
+                    <button id="log-clear" type="button" class="ghost-btn">Clear</button>
+                </div>
+                <div id="log" class="log"></div>
+            </section>
+        </main>
+    </div>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>
